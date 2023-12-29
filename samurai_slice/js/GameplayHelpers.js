@@ -48,10 +48,13 @@ export function createFruit(scene) {
   item.body.setCircle(45);
   item.setInteractive();
   item.setScale(scaleToFitX + 1, scaleToFitY + 1);
-  item.body.setVelocity(
-    Phaser.Math.Between(-80, 80),
-    isMobile ? -gameHeight : -gameHeight - 100
-  );
+
+  const launchVelocityFactor = 1.2;
+  const launchVelocityY = isMobile
+    ? -gameHeight * launchVelocityFactor
+    : (-gameHeight - 100) * launchVelocityFactor;
+
+  item.body.setVelocity(Phaser.Math.Between(-80, 80), launchVelocityY);
   item.setCollideWorldBounds(false);
 }
 
