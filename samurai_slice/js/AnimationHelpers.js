@@ -1,3 +1,7 @@
+import { config } from "./config.js";
+
+const { isMobile } = config;
+
 export function processSlashInput(scene) {
   if (scene.game.input.activePointer.isDown) {
     renderSlashEffect(
@@ -42,12 +46,15 @@ export function spawnExplosionEffect(scene, x, y) {
 }
 
 export function animateExplosions(scene) {
+  const explosionScaleFactor = isMobile ? 1.2 : 1.5;
+  const scaleIncrement = 0.015;
+
   for (let i = scene.explosions.length - 1; i >= 0; i--) {
     let explosion = scene.explosions[i];
-    explosion.scale += 0.02;
+    explosion.scale += scaleIncrement;
     explosion.setScale(explosion.scale);
 
-    if (explosion.scale >= 1.5) {
+    if (explosion.scale >= explosionScaleFactor) {
       explosion.destroy();
       scene.explosions.splice(i, 1);
     }

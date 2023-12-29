@@ -5,6 +5,10 @@ import { spawnExplosionEffect } from "./AnimationHelpers.js";
 
 const { gameWidth, gameHeight, isMobile, scaleToFitX, scaleToFitY } = config;
 
+const fruitScaleFactor = isMobile ? 0.7 : 1;
+const fruitScaleX = scaleToFitX + fruitScaleFactor;
+const fruitScaleY = scaleToFitY + fruitScaleFactor;
+
 export function startGame(scene) {
   scene.startButton.visible = false;
   scene.scoreLabel.visible = true;
@@ -30,7 +34,10 @@ export function scheduleFruitLaunch(scene) {
 export function launchFruits(scene) {
   if (scene.gameState === "playing") {
     scene.gameLevel++;
-    let totalItems = Math.min(Math.floor(scene.gameLevel / 3) + 1, 4);
+    let totalItems = Math.min(
+      Math.floor(scene.gameLevel / 3) + 1,
+      isMobile ? 4 : 6
+    );
 
     for (let i = 0; i < totalItems; i++) {
       scene.time.delayedCall(i * 200, () => createFruit(scene), []);
@@ -45,11 +52,14 @@ export function createFruit(scene) {
 
   item.type = fruitType;
   item.state = "spawning";
-  item.body.setCircle(45);
-  item.setInteractive();
-  item.setScale(scaleToFitX + 1, scaleToFitY + 1);
 
-  const launchVelocityFactor = 1.2;
+  const fruitRadius = (128 / 2) * fruitScaleFactor;
+  item.body.setCircle(fruitRadius);
+
+  item.setInteractive();
+  item.setScale(fruitScaleX, fruitScaleY);
+
+  const launchVelocityFactor = 1.7;
   const launchVelocityY = isMobile
     ? -gameHeight * launchVelocityFactor
     : (-gameHeight - 100) * launchVelocityFactor;
@@ -132,7 +142,7 @@ export function createSlicedFruit(scene, itemType, x, y) {
   scene.physics.add.existing(part1);
   part1.type = cutTexture;
   part1.state = "falling";
-  part1.setScale(scaleToFitX + 1, scaleToFitY + 1);
+  part1.setScale(fruitScaleX, fruitScaleY);
   part1.body.setVelocity(0, 0);
   part1.setOrigin(0.5, 0.5);
 
@@ -140,7 +150,7 @@ export function createSlicedFruit(scene, itemType, x, y) {
   scene.physics.add.existing(part2);
   part2.type = cutTexture;
   part2.state = "falling";
-  part2.setScale(scaleToFitX + 1, scaleToFitY + 1);
+  part2.setScale(fruitScaleX, fruitScaleY);
   part2.body.setVelocity(0, 0);
   part2.setOrigin(0.5, 0.5);
 
