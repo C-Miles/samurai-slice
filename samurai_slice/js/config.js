@@ -14,6 +14,7 @@ export const config = {
   gameWidth: gameWidth,
   gameHeight: gameHeight,
   fontSize: Math.max(gameWidth / baseWidth, gameHeight / baseHeight) * 30,
+  isMobile,
   scaleToFitX: gameWidth / baseWidth,
   scaleToFitY: gameHeight / baseHeight,
 };

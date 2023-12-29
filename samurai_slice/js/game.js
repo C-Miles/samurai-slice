@@ -86,7 +86,7 @@ class GamePlay extends Phaser.Scene {
 
 const configurations = {
   type: Phaser.AUTO,
-  parent: 'game-container',
+  parent: "game-container",
   width: gameWidth,
   height: gameHeight,
   physics: {

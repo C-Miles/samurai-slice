@@ -3,7 +3,7 @@ import { config } from "./config.js";
 import { flashLivesIndicator, triggerGameOver } from "./UIHelpers.js";
 import { spawnExplosionEffect } from "./AnimationHelpers.js";
 
-const { gameWidth, gameHeight, scaleToFitX, scaleToFitY } = config;
+const { gameWidth, gameHeight, isMobile, scaleToFitX, scaleToFitY } = config;
 
 export function startGame(scene) {
   scene.startButton.visible = false;
@@ -48,7 +48,10 @@ export function createFruit(scene) {
   item.body.setCircle(45);
   item.setInteractive();
   item.setScale(scaleToFitX + 1, scaleToFitY + 1);
-  item.body.setVelocity(Phaser.Math.Between(-80, 80), -gameHeight + 100);
+  item.body.setVelocity(
+    Phaser.Math.Between(-80, 80),
+    isMobile ? -gameHeight : -gameHeight - 100
+  );
   item.setCollideWorldBounds(false);
 }
 
