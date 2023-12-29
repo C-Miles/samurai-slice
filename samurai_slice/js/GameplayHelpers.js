@@ -145,6 +145,7 @@ export function createSlicedFruit(scene, itemType, x, y) {
   part1.setScale(fruitScaleX, fruitScaleY);
   part1.body.setVelocity(0, 0);
   part1.setOrigin(0.5, 0.5);
+  part1.alpha = 1;
 
   var part2 = scene.itemsCut.create(x, y, cutTexture);
   scene.physics.add.existing(part2);
@@ -153,6 +154,7 @@ export function createSlicedFruit(scene, itemType, x, y) {
   part2.setScale(fruitScaleX, fruitScaleY);
   part2.body.setVelocity(0, 0);
   part2.setOrigin(0.5, 0.5);
+  part2.alpha = 1;
 
   return [part1, part2];
 }
@@ -176,6 +178,15 @@ export function updateGameplay(scene) {
       }
 
       updateFruitState(scene, item);
+    });
+
+    scene.itemsCut.getChildren().forEach((slicedItem) => {
+      if (slicedItem.alpha > 0) {
+        slicedItem.alpha -= 0.005;
+        if (slicedItem.alpha <= 0) {
+          slicedItem.destroy();
+        }
+      }
     });
   }
 }
