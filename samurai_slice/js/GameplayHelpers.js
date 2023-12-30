@@ -130,9 +130,20 @@ export function handleFallingFruit(scene, item) {
 export function destroyFruitAndScore(scene, item) {
   scene.scoreCount += 100;
   const parts = createSlicedFruit(scene, item.type, item.x, item.y);
-  applySliceForce(parts[0], "left");
-  applySliceForce(parts[1], "right");
+
+  applySliceForceAndRotation(parts[0], "left");
+  applySliceForceAndRotation(parts[1], "right");
+
   item.destroy();
+}
+
+export function applySliceForceAndRotation(item, direction) {
+  var xVector = direction === "left" ? -160 : 160;
+  var yVector = -300;
+  item.body.velocity.setTo(xVector, yVector);
+
+  var angularVelocity = direction === "left" ? 130 : -130;
+  item.body.angularVelocity = angularVelocity;
 }
 
 export function createSlicedFruit(scene, itemType, x, y) {
