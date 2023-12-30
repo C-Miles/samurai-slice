@@ -1,6 +1,6 @@
 const isMobile = window.innerWidth < 768;
 const baseWidth = 1024;
-const baseHeight = 768;
+const baseHeight = isMobile ? 1024 : 768;
 
 const gameWidth = isMobile
   ? window.innerWidth

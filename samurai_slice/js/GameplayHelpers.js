@@ -64,7 +64,19 @@ export function createFruit(scene) {
     ? -gameHeight * launchVelocityFactor
     : (-gameHeight - 100) * launchVelocityFactor;
 
-  item.body.setVelocity(Phaser.Math.Between(-80, 80), launchVelocityY);
+  const maxXVelocity = gameWidth / 4;
+
+  const centerDistanceFactor = Math.abs(gameWidth / 2 - xPos) / (gameWidth / 2);
+  let launchVelocityX = maxXVelocity * centerDistanceFactor;
+
+  if (xPos < gameWidth / 2) {
+    launchVelocityX = Math.abs(launchVelocityX);
+  } else {
+    launchVelocityX = -Math.abs(launchVelocityX);
+  }
+
+  item.body.setVelocity(launchVelocityX, launchVelocityY);
+
   item.setCollideWorldBounds(false);
 }
 
