@@ -15,18 +15,31 @@ export function processSlashInput(scene) {
 }
 
 export function renderSlashEffect(scene, x, y) {
-  scene.slash.push({ x, y });
+  const currentTime = scene.time.now;
+  scene.slash.push({ x, y, time: currentTime });
 
-  if (scene.slash.length > 1) {
-    let lastIndex = scene.slash.length - 1;
+  scene.slashGraphics.clear();
 
-    scene.slashGraphics.clear();
+  for (let i = 1; i < scene.slash.length; i++) {
+    const alpha = Phaser.Math.Clamp(
+      1 - (currentTime - scene.slash[i - 1].time) / 400,
+      0,
+      1
+    );
+
+    if (alpha <= 0) {
+      scene.slash.splice(i - 1, 1);
+      i--;
+      continue;
+    }
+
+    scene.slashGraphics.lineStyle(8, 0xffffff, alpha);
     scene.slashGraphics.strokeLineShape(
       new Phaser.Geom.Line(
-        scene.slash[lastIndex - 1].x,
-        scene.slash[lastIndex - 1].y,
-        x,
-        y
+        scene.slash[i - 1].x,
+        scene.slash[i - 1].y,
+        scene.slash[i].x,
+        scene.slash[i].y
       )
     );
   }

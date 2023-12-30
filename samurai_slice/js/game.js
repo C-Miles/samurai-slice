@@ -34,6 +34,7 @@ class GamePlay extends Phaser.Scene {
     this.itemList = ["apple", "carrot", "orange", "pear", "tomato", "bomb"];
     this.livesCount = 3;
     this.scoreCount = 0;
+    this.slash = [];
     this.slashGraphics = null;
     this.throwEvent = null;
   }
