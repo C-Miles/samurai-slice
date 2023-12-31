@@ -190,12 +190,27 @@ export function applySliceForce(item, direction) {
 
 export function isPointerOver(scene, item) {
   const pointer = scene.input.activePointer;
-  return item.getBounds().contains(pointer.worldX, pointer.worldY);
+
+  const fastFailDistance = item.body.radius + 2;
+  const distance = Phaser.Math.Distance.Between(pointer.worldX, pointer.worldY, item.x, item.y);
+
+  if (distance > fastFailDistance) {
+    return false;
+  }
+
+  const circle = new Phaser.Geom.Circle(item.x, item.y, item.body.radius);
+  return Phaser.Geom.Circle.Contains(circle, pointer.worldX, pointer.worldY);
 }
 
+
 export function updateGameplay(scene) {
+  // NOTE: uncomment for hit box debugging
+  // scene.debugGraphics.clear();
+
   if (scene.gameState === "playing") {
     scene.items.getChildren().forEach((item) => {
+      // scene.debugGraphics.strokeCircle(item.x, item.y, item.body.radius);
+
       if (isPointerOver(scene, item)) {
         handleFruitInteraction(scene, item);
       }

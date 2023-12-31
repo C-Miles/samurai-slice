@@ -75,6 +75,11 @@ class GamePlay extends Phaser.Scene {
 
     this.scoreLabel.visible = false;
     this.livesLabel.visible = false;
+
+    // Note: Uncomment for hit box debugging
+    // this.debugGraphics = this.add.graphics();
+    // this.debugGraphics.lineStyle(2, 0xff0000, 1);
+    // this.debugGraphics.setDepth(100);
   }
 
   update() {
